@@ -1,0 +1,246 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #080808;
+  --color-surface: #101010;
+  --color-surface-alt: #111111;
+  --color-bone: #f4f2ec;
+  --color-muted: #8a8a8a;
+  --color-warm-grey: #6b6a63;
+  --color-lime: #c8f135;
+  --color-orange: #ff6a2c;
+  --color-purple: #9a7bff;
+  --color-blue: #4d74ff;
+  --color-periwinkle: #9e9eff;
+
+  --font-display: var(--font-bricolage), sans-serif;
+  --font-sans: var(--font-geist), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), monospace;
+
+  --container-content: 72rem;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-ink);
+  color: var(--color-bone);
+  font-family: var(--font-sans);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.disp-tight {
+  letter-spacing: -0.01em;
+}
+
+/* Tone system — hairlines invert on light sections. */
+:root {
+  --hairline: rgba(244, 242, 236, 0.12);
+  --hairline-soft: rgba(244, 242, 236, 0.08);
+  --hairline-strong: rgba(244, 242, 236, 0.3);
+}
+
+.tone-light {
+  --hairline: rgba(8, 8, 8, 0.14);
+  --hairline-soft: rgba(8, 8, 8, 0.08);
+  --hairline-strong: rgba(8, 8, 8, 0.34);
+  background: var(--color-bone);
+  color: var(--color-ink);
+}
+
+.hairline {
+  border-color: var(--hairline);
+}
+
+.hairline-soft {
+  border-color: var(--hairline-soft);
+}
+
+/* The signature closing line: italic, lowercase, dimmed. */
+.closer {
+  font-family: var(--font-display);
+  font-style: italic;
+  text-transform: lowercase;
+  color: var(--color-warm-grey);
+}
+
+.tone-light .closer {
+  color: rgba(8, 8, 8, 0.42);
+}
+
+.closer-orange,
+.tone-light .closer-orange {
+  color: var(--color-orange);
+}
+
+.chrome-text {
+  background: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    #e8e6df 18%,
+    #9a978d 38%,
+    #f4f2ec 52%,
+    #6b6a63 68%,
+    #d6d3c9 84%,
+    #ffffff 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  background: var(--color-lime);
+  color: var(--color-ink);
+  padding: 0.75rem 1.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.skip-link:focus {
+  left: 1rem;
+  top: 1rem;
+}
+
+*:focus-visible {
+  outline: 2px solid var(--color-bone);
+  outline-offset: 2px;
+}
+
+/* Shimmer sweep for primary buttons — adapted from Magic UI's Shimmer Button. */
+@keyframes shimmer-slide {
+  to {
+    transform: translate(calc(100cqw - 100%), 0);
+  }
+}
+
+@keyframes shimmer-spin {
+  0% {
+    transform: translateZ(0) rotate(0deg);
+  }
+  15%,
+  35% {
+    transform: translateZ(0) rotate(90deg);
+  }
+  65%,
+  85% {
+    transform: translateZ(0) rotate(270deg);
+  }
+  100% {
+    transform: translateZ(0) rotate(360deg);
+  }
+}
+
+.btn-shimmer-track {
+  animation: shimmer-slide 2.5s ease-in-out infinite alternate;
+}
+
+.btn-shimmer-spark {
+  animation: shimmer-spin 5s infinite linear;
+  background: conic-gradient(
+    from 225deg,
+    transparent 0,
+    var(--color-ink) 90deg,
+    transparent 90deg
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-shimmer-track,
+  .btn-shimmer-spark {
+    animation: none;
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  animation: marquee 38s linear infinite;
+}
+
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+.spotlight-card {
+  --spot-x: 50%;
+  --spot-y: 50%;
+}
+
+.spotlight-glow {
+  background: radial-gradient(
+    240px circle at var(--spot-x) var(--spot-y),
+    color-mix(in srgb, var(--spot-color) 14%, transparent),
+    transparent 70%
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spotlight-glow {
+    display: none;
+  }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s var(--ease-out, cubic-bezier(0, 0, 0.2, 1)),
+    transform 0.6s var(--ease-out, cubic-bezier(0, 0, 0.2, 1));
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .chrome-text {
+    background: none;
+    -webkit-background-clip: unset;
+    background-clip: unset;
+    color: var(--color-bone);
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  .marquee-track {
+    animation: none;
+  }
+}
