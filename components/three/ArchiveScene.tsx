@@ -1,9 +1,10 @@
 "use client";
 
-import { RefObject, useEffect, useMemo, useRef } from "react";
+import { RefObject, useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
+import { projects } from "@/lib/content";
 
 const PANEL_COUNT = 14;
 const ACCENTS = ["#c8f135", "#ff6a2c", "#9a7bff", "#4d74ff", "#ff3b5c"];
@@ -111,18 +112,45 @@ function Panels({
   const scroll = useRef(0);
   const last = useRef(-1);
 
-  const panels = useMemo(
-    () =>
-      Array.from({ length: PANEL_COUNT }, (_, i) => ({
-        accent: ACCENTS[i % ACCENTS.length],
-        texture: makeWindowTexture(ACCENTS[i % ACCENTS.length], i + 1),
-      })),
-    []
+  const withImages = useMemo(() => projects.filter((p) => p.image), []);
+
+  const [panels, setPanels] = useState<
+    { accent: string; texture: THREE.Texture }[]
+  >(() =>
+    Array.from({ length: PANEL_COUNT }, (_, i) => ({
+      accent: ACCENTS[i % ACCENTS.length],
+      texture: makeWindowTexture(ACCENTS[i % ACCENTS.length], i + 1),
+    }))
   );
+
+  // Swap in real project screenshots for the first few panels once loaded.
+  useEffect(() => {
+    let cancelled = false;
+    const loader = new THREE.TextureLoader();
+
+    withImages.forEach((project, i) => {
+      if (i >= PANEL_COUNT || !project.image) return;
+      loader.load(project.image, (tex) => {
+        if (cancelled) return;
+        tex.colorSpace = THREE.SRGBColorSpace;
+        setPanels((prev) => {
+          const next = [...prev];
+          next[i].texture.dispose();
+          next[i] = { accent: next[i].accent, texture: tex };
+          return next;
+        });
+      });
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [withImages]);
 
   useEffect(
     () => () => panels.forEach((p) => p.texture.dispose()),
-    [panels]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
   );
 
   const targets = useMemo(
@@ -176,7 +204,7 @@ function Panels({
     <group ref={group}>
       {panels.map((p, i) => (
         <mesh key={i} position={targets[i]}>
-          <planeGeometry args={[2.6, 1.68]} />
+          <planeGeometry args={[2.6, 1.365]} />
           <meshBasicMaterial
             map={p.texture}
             side={THREE.DoubleSide}

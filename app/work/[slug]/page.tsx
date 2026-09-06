@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Button from "@/components/Button";
@@ -63,6 +64,19 @@ export default async function ProjectPage({ params }: Props) {
           label={project.status === "shipped" ? "Shipped" : "In Development"}
         />
       </div>
+
+      {project.image && (
+        <div className="relative mt-12 aspect-[1200/630] w-full overflow-hidden rounded-2xl border border-bone/12">
+          <Image
+            src={project.image}
+            alt={`${project.title} — ${project.category}`}
+            fill
+            priority
+            className="object-cover"
+            sizes="(min-width: 1024px) 960px, 100vw"
+          />
+        </div>
+      )}
 
       <div className="mt-20 grid gap-16 lg:grid-cols-[1fr_2fr]">
         <div className="flex flex-col gap-10">

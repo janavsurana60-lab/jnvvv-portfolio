@@ -232,6 +232,32 @@ function makeWorkWindowTexture(accentHex: string) {
   return tex;
 }
 
+/** Real project screenshot when available, generated mockup otherwise. */
+function useProjectTexture(project: Project) {
+  const accentHex = ACCENTS[project.accent];
+  const fallback = useMemo(() => makeWorkWindowTexture(accentHex), [accentHex]);
+  const [real, setReal] = useState<THREE.Texture | null>(null);
+
+  useEffect(() => {
+    if (!project.image) return;
+    let cancelled = false;
+    const loader = new THREE.TextureLoader();
+    loader.load(project.image, (tex) => {
+      if (cancelled) return;
+      tex.colorSpace = THREE.SRGBColorSpace;
+      setReal(tex);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [project.image]);
+
+  useEffect(() => () => fallback.dispose(), [fallback]);
+  useEffect(() => () => real?.dispose(), [real]);
+
+  return real ?? fallback;
+}
+
 function ProjectWindow({
   project,
   segStart,
@@ -246,10 +272,7 @@ function ProjectWindow({
   reduced: boolean;
 }) {
   const ref = useRef<THREE.Group>(null);
-  const accentHex = ACCENTS[project.accent];
-  const texture = useMemo(() => makeWorkWindowTexture(accentHex), [accentHex]);
-
-  useEffect(() => () => texture.dispose(), [texture]);
+  const texture = useProjectTexture(project);
 
   useFrame(() => {
     const g = ref.current;
@@ -284,7 +307,7 @@ function ProjectWindow({
   return (
     <group ref={ref}>
       <mesh>
-        <planeGeometry args={[3.2, 2]} />
+        <planeGeometry args={[3.2, 1.68]} />
         <meshBasicMaterial
           map={texture}
           transparent

@@ -10,6 +10,7 @@ export type Project = {
   capabilities: string[];
   tech: string[];
   link?: string;
+  image?: string;
   featured?: boolean;
   placeholder?: boolean;
   accent: AccentName;
@@ -144,53 +145,63 @@ export const capabilities: Capability[] = [
 
 export const projects: Project[] = [
   {
-    slug: "project-alpha",
-    accent: "lime",
+    slug: "janav-poly",
+    accent: "blue",
     index: "01",
-    title: "Project Alpha",
-    category: "Full-Stack Web App",
+    title: "Janav Poly",
+    category: "B2B Industrial Website",
     status: "shipped",
-    summary: "Placeholder project — swap in real work via lib/content.ts.",
+    summary:
+      "A corporate site for a Kolkata polymer trading company — a cinematic scroll, an AI grade-questions assistant, and registry particulars presented as trust signals rather than paperwork.",
     challenge:
-      "Describe the real problem this project solved once you have a project to add here.",
+      "An earlier version of the site had been built around the company's official filing code, which describes manufacturing — but the business only imports and resells. The story being told didn't match the business being run.",
     solution:
-      "Describe the system you built and why it worked.",
-    capabilities: ["Placeholder capability one", "Placeholder capability two"],
-    tech: ["Next.js", "TypeScript", "Tailwind CSS"],
+      "The whole narrative got rebuilt around the real supply chain — shipment to stock to dispatch — with registration details surfaced as proof rather than buried in a footer, and a light AI assistant added for grade questions.",
+    capabilities: [
+      "Cinematic scroll-driven 3D hero, built with React Three Fiber",
+      "AI assistant for supply and grade questions",
+      "Registered particulars (CIN, GSTIN) surfaced as trust signals",
+    ],
+    tech: ["Next.js", "React Three Fiber", "GSAP"],
+    link: "https://janavpoly.vercel.app",
+    image: "/work/janav-poly.png",
     featured: true,
-    placeholder: true,
   },
   {
-    slug: "project-beta",
+    slug: "dulaar",
     accent: "orange",
     index: "02",
-    title: "Project Beta",
-    category: "AI Automation",
-    status: "shipped",
-    summary: "Placeholder project — swap in real work via lib/content.ts.",
+    title: "Dulaar",
+    category: "Restaurant & Hospitality",
+    status: "in development",
+    summary:
+      "Marketing and booking site for a Kolkata mithai counter and vegetarian kitchen — real photography, a genuine WebGL gallery, and a booking flow that still saves a table even when the confirmation email can't send.",
     challenge:
-      "Describe the real problem this project solved once you have a project to add here.",
+      "No published menu existed, and no vector logo either — just a photograph of the storefront sign. Every fact on the page had to be sourced from the shop's own public listing rather than invented.",
     solution:
-      "Describe the system you built and why it worked.",
-    capabilities: ["Placeholder capability one", "Placeholder capability two"],
-    tech: ["Python", "OpenAI API", "PostgreSQL"],
+      "Content got built straight from the business's public Google listing; the logo geometry was traced out of a photo of the sign itself. Three different 3D techniques layer in — CSS parallax, a real WebGL counter gallery, and extruded buttons — each used only where it earns its place.",
+    capabilities: [
+      "Logo geometry recovered from a storefront photograph",
+      "WebGL mithai-counter gallery, built on ogl",
+      "Booking system that degrades gracefully without email configured",
+    ],
+    tech: ["Next.js", "Motion", "WebGL (ogl)", "Neon Postgres"],
+    image: "/work/dulaar.png",
     featured: true,
-    placeholder: true,
   },
   {
-    slug: "project-gamma",
-    accent: "blue",
+    slug: "project-three",
+    accent: "lime",
     index: "03",
-    title: "Project Gamma",
-    category: "Mobile MVP",
+    title: "Coming Next",
+    category: "In the Pipeline",
     status: "in development",
-    summary: "Placeholder project — swap in real work via lib/content.ts.",
-    challenge:
-      "Describe the real problem this project solved once you have a project to add here.",
-    solution:
-      "Describe the system you built and why it worked.",
-    capabilities: ["Placeholder capability one", "Placeholder capability two"],
-    tech: ["React Native", "Node.js"],
+    summary:
+      "A third system is on the way — details land here once it's further along.",
+    challenge: "To be documented once the project takes shape.",
+    solution: "To be documented once the project takes shape.",
+    capabilities: ["More on this soon"],
+    tech: ["TBD"],
     featured: true,
     placeholder: true,
   },
