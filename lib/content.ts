@@ -27,6 +27,7 @@ export const profile = {
 
 export const navLinks = [
   { label: "Work", href: "/work" },
+  { label: "Lab", href: "/lab" },
   { label: "Capabilities", href: "/capabilities" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
@@ -204,6 +205,50 @@ export const projects: Project[] = [
     tech: ["TBD"],
     featured: true,
     placeholder: true,
+  },
+];
+
+export type SmallProject = {
+  slug: string;
+  index: string;
+  title: string;
+  category: string;
+  status: "shipped" | "in development";
+  summary: string;
+  detail: string;
+  tech: string[];
+  link?: string;
+  accent: AccentName;
+};
+
+/** Smaller builds — shown on /lab against the wave field. */
+export const smallProjects: SmallProject[] = [
+  {
+    slug: "self-learning-agent",
+    index: "01",
+    title: "Self-Learning Agent",
+    category: "AI Agent · Persistent Memory",
+    status: "shipped",
+    accent: "lime",
+    summary:
+      "An agent that keeps what it learns. Nothing gets retrained — a durable memory of facts, rules and procedures is accumulated, then recalled into context on every later task.",
+    detail:
+      "Each task runs a loop: relevant memory is recalled, the work is done with tools, then the run is reflected on and whatever proved durable is written back. Preferences, identity and rules load on every task; facts and procedures are pulled by relevance.",
+    tech: ["Next.js 16", "Vercel AI SDK", "Supabase"],
+    link: "https://selflearn-black.vercel.app",
+  },
+  {
+    slug: "polaris",
+    index: "02",
+    title: "Polaris",
+    category: "AI Mentor · Exhibition Build",
+    status: "in development",
+    accent: "purple",
+    summary:
+      "A student-facing AI mentor built for a live exhibition floor. Questions answer instantly from a local bank; only the closing verdict reaches out to a model.",
+    detail:
+      "Nothing is allowed to hang in front of an audience. Two models are raced in parallel behind an eight-second hard cap, with an offline fallback underneath — so a verdict always arrives, wifi or not. Strengths resolve into a 3D constellation behind the result.",
+    tech: ["Vanilla JS", "Three.js", "OpenRouter"],
   },
 ];
 
