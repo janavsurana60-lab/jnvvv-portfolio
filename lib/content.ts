@@ -249,6 +249,7 @@ export const smallProjects: SmallProject[] = [
     detail:
       "Nothing is allowed to hang in front of an audience. Two models are raced in parallel behind an eight-second hard cap, with an offline fallback underneath — so a verdict always arrives, wifi or not. Strengths resolve into a 3D constellation behind the result.",
     tech: ["Vanilla JS", "Three.js", "OpenRouter"],
+    link: "https://polaris-mentor.vercel.app",
   },
 ];
 
