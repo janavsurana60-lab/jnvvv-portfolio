@@ -21,7 +21,9 @@ const BUDGET_RANGES = [
 ];
 
 const inputClass =
-  "w-full rounded-xl border bg-surface px-4 py-3.5 text-sm text-bone outline-none transition-colors placeholder:text-warm-grey focus:border-lime";
+  "w-full rounded-xl border border-bone/15 bg-surface px-4 py-3.5 text-sm text-bone outline-none transition-colors placeholder:text-warm-grey focus:border-lime";
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function ContactForm() {
   const [name, setName] = useState("");
@@ -30,7 +32,7 @@ export default function ContactForm() {
   const [budget, setBudget] = useState("");
   const [message, setMessage] = useState("");
 
-  const valid = name.trim().length > 0 && email.trim().length > 0;
+  const valid = name.trim().length > 0 && EMAIL_RE.test(email.trim());
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -55,8 +57,8 @@ export default function ContactForm() {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-6" noValidate>
       <p className="text-xs leading-relaxed text-warm-grey">
-        This opens your email client with the details filled in — there&apos;s
-        no server behind this form, just a direct line to my inbox.
+        This opens your email client with the details filled in — no server
+        sits behind it, the message just lands straight in the inbox.
       </p>
 
       <div>
@@ -102,19 +104,27 @@ export default function ContactForm() {
         >
           Project Type
         </label>
-        <select
-          id="projectType"
-          value={projectType}
-          onChange={(e) => setProjectType(e.target.value)}
-          className={`${inputClass} appearance-none`}
-        >
-          <option value="">Select a project type</option>
-          {PROJECT_TYPES.map((t) => (
-            <option key={t} value={t}>
-              {t}
-            </option>
-          ))}
-        </select>
+        <div className="relative">
+          <select
+            id="projectType"
+            value={projectType}
+            onChange={(e) => setProjectType(e.target.value)}
+            className={`${inputClass} appearance-none pr-10`}
+          >
+            <option value="">Select a project type</option>
+            {PROJECT_TYPES.map((t) => (
+              <option key={t} value={t}>
+                {t}
+              </option>
+            ))}
+          </select>
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-xs text-warm-grey"
+          >
+            ▾
+          </span>
+        </div>
       </div>
 
       <div>
@@ -124,19 +134,27 @@ export default function ContactForm() {
         >
           Budget Range
         </label>
-        <select
-          id="budget"
-          value={budget}
-          onChange={(e) => setBudget(e.target.value)}
-          className={`${inputClass} appearance-none`}
-        >
-          <option value="">Select budget range</option>
-          {BUDGET_RANGES.map((b) => (
-            <option key={b} value={b}>
-              {b}
-            </option>
-          ))}
-        </select>
+        <div className="relative">
+          <select
+            id="budget"
+            value={budget}
+            onChange={(e) => setBudget(e.target.value)}
+            className={`${inputClass} appearance-none pr-10`}
+          >
+            <option value="">Select budget range</option>
+            {BUDGET_RANGES.map((b) => (
+              <option key={b} value={b}>
+                {b}
+              </option>
+            ))}
+          </select>
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-xs text-warm-grey"
+          >
+            ▾
+          </span>
+        </div>
       </div>
 
       <div>
