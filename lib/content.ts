@@ -14,6 +14,12 @@ export type Project = {
   featured?: boolean;
   placeholder?: boolean;
   accent: AccentName;
+  /**
+   * Path to a self-contained static build of the project, bundled under
+   * /public and embedded as a click-through walkthrough on the case-study
+   * page. Used where the project isn't deployed on its own domain.
+   */
+  preview?: string;
 };
 
 export const profile = {
@@ -189,6 +195,7 @@ export const projects: Project[] = [
     tech: ["Next.js", "Motion", "WebGL (ogl)", "Neon Postgres"],
     image: "/work/dulaar.png",
     featured: true,
+    preview: "/dulaar-preview/",
   },
   {
     slug: "project-three",

@@ -1,0 +1,3 @@
+# The Dulaar walkthrough is a pre-built static export — commit its files
+# byte-for-byte, no line-ending conversion.
+public/dulaar-preview/** -text

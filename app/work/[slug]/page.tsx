@@ -78,6 +78,38 @@ export default async function ProjectPage({ params }: Props) {
         </div>
       )}
 
+      {project.preview && (
+        <Reveal className="mt-16">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <p className="flex items-center gap-2 font-mono text-[9px] uppercase tracking-[0.2em] text-muted">
+              <span className="h-1.5 w-1.5 rounded-full bg-lime" />
+              Live Walkthrough — click through the whole site
+            </p>
+            <a
+              href={project.preview}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted underline decoration-1 underline-offset-4 transition-colors hover:text-bone"
+            >
+              Open full screen ↗
+            </a>
+          </div>
+          <div className="mt-4 overflow-hidden rounded-2xl border border-bone/12 bg-ink">
+            <iframe
+              src={project.preview}
+              title={`${project.title} — interactive walkthrough`}
+              loading="lazy"
+              className="block h-[640px] w-full md:h-[760px]"
+              sandbox="allow-scripts allow-same-origin allow-popups"
+            />
+          </div>
+          <p className="mt-3 font-mono text-[9px] uppercase tracking-[0.16em] text-warm-grey">
+            Real front-end, running in-page. Booking and contact forms are
+            switched off in this preview — nothing is sent.
+          </p>
+        </Reveal>
+      )}
+
       <div className="mt-20 grid gap-16 lg:grid-cols-[1fr_2fr]">
         <div className="flex flex-col gap-10">
           <div>
