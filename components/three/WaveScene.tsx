@@ -5,6 +5,7 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { AdaptiveDpr } from "@react-three/drei";
 import * as THREE from "three";
 import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
+import { usePointerRef } from "@/lib/usePointerRef";
 import { getContainerProgress } from "@/lib/scrollProgress";
 import { ACCENTS, SmallProject } from "@/lib/content";
 
@@ -164,17 +165,28 @@ function Rig({
   containerRef: RefObject<HTMLElement | null>;
   reduced: boolean;
 }) {
-  const { camera, pointer } = useThree();
+  const { camera } = useThree();
+  // window-based, since the <Canvas> is pointer-events:none. Disabled (and
+  // pinned at {0,0}) under reduced motion.
+  const pointer = usePointerRef(!reduced);
 
   useFrame(() => {
     const p = containerRef.current
       ? getContainerProgress(containerRef.current)
       : 0;
 
-    // skim forward across the water
+    // skim forward across the water — scroll-linked, so it still tracks
+    // under reduced motion; only the easing and pointer parallax drop out.
     const z = 12 - p * TRAVEL;
-    const ty = 2.4 + (reduced ? 0 : pointer.y * 0.4);
-    const tx = reduced ? 0 : pointer.x * 1.2;
+
+    if (reduced) {
+      camera.position.set(0, 2.4, z);
+      camera.lookAt(0, 0.2, z - 9);
+      return;
+    }
+
+    const ty = 2.4 + pointer.current.y * 0.4;
+    const tx = pointer.current.x * 1.2;
 
     camera.position.z += (z - camera.position.z) * 0.08;
     camera.position.y += (ty - camera.position.y) * 0.05;
@@ -206,7 +218,10 @@ export default function WaveScene({
       dpr={[1, 1.5]}
       camera={{ position: [0, 2.4, 12], fov: 55 }}
       gl={{ antialias: false, alpha: true, powerPreference: "high-performance" }}
-      frameloop={reduced ? "demand" : "always"}
+      // always render: the scroll-linked camera in <Rig> must keep tracking
+      // even under reduced motion, where "demand" would freeze it. The
+      // reduced flag already flattens the waves and stills the buoys.
+      frameloop="always"
       performance={{ min: 0.5 }}
       style={{ pointerEvents: "none" }}
     >

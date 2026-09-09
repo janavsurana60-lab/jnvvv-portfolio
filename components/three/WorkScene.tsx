@@ -5,6 +5,7 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { AdaptiveDpr } from "@react-three/drei";
 import * as THREE from "three";
 import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
+import { usePointerRef } from "@/lib/usePointerRef";
 import { getContainerProgress } from "@/lib/scrollProgress";
 import { ACCENTS, Project } from "@/lib/content";
 
@@ -158,22 +159,29 @@ function Rig({
   reduced: boolean;
   containerRef: RefObject<HTMLElement | null>;
 }) {
-  const { camera, pointer } = useThree();
+  const { camera } = useThree();
+  // window-based, since the <Canvas> is pointer-events:none. Disabled (and
+  // pinned at {0,0}) under reduced motion.
+  const pointer = usePointerRef(!reduced);
 
   useFrame(() => {
     const scroll = containerRef.current
       ? getContainerProgress(containerRef.current)
       : 0;
+    const z = 9 - scroll * 2.2;
+
     if (reduced) {
-      camera.position.set(0, scroll * 1.2, 9 - scroll * 2.2);
+      // scroll-linked only, set directly — no easing, no parallax
+      camera.position.set(0, scroll * 1.2, z);
       camera.lookAt(0, 0, 0);
       return;
     }
-    const tx = pointer.x * 0.6;
-    const ty = pointer.y * 0.35 + scroll * 1.2;
+
+    const tx = pointer.current.x * 0.6;
+    const ty = pointer.current.y * 0.35 + scroll * 1.2;
     camera.position.x += (tx - camera.position.x) * 0.04;
     camera.position.y += (ty - camera.position.y) * 0.04;
-    camera.position.z = 9 - scroll * 2.2;
+    camera.position.z = z;
     camera.lookAt(0, 0, 0);
   });
 
@@ -394,7 +402,10 @@ export default function WorkScene({
       dpr={[1, 1.5]}
       camera={{ position: [0, 0, 9], fov: 50 }}
       gl={{ antialias: false, powerPreference: "high-performance", alpha: true }}
-      frameloop={reduced ? "demand" : "always"}
+      // always render: the scroll-linked camera in <Rig> must keep tracking
+      // even under reduced motion, where "demand" would freeze it. The
+      // reduced flag already stills the particles, rings, core and spine.
+      frameloop="always"
       performance={{ min: 0.5 }}
       style={{ pointerEvents: "none" }}
     >
