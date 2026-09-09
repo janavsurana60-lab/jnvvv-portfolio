@@ -12,7 +12,6 @@ export type Project = {
   link?: string;
   image?: string;
   featured?: boolean;
-  placeholder?: boolean;
   accent: AccentName;
   /**
    * Path to a self-contained static build of the project, bundled under
@@ -196,22 +195,6 @@ export const projects: Project[] = [
     image: "/work/dulaar.png",
     featured: true,
     preview: "/dulaar-preview/",
-  },
-  {
-    slug: "project-three",
-    accent: "lime",
-    index: "03",
-    title: "Coming Next",
-    category: "In the Pipeline",
-    status: "in development",
-    summary:
-      "A third system is on the way — details land here once it's further along.",
-    challenge: "To be documented once the project takes shape.",
-    solution: "To be documented once the project takes shape.",
-    capabilities: ["More on this soon"],
-    tech: ["TBD"],
-    featured: true,
-    placeholder: true,
   },
 ];
 

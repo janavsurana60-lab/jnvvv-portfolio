@@ -40,7 +40,7 @@ export default function WorkJourney({ projects }: { projects: Project[] }) {
   const accent = ACCENTS[active.accent];
 
   return (
-    <div ref={containerRef} className="relative h-[380vh]">
+    <div ref={containerRef} className="relative h-[260vh]">
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         {mounted && <WorkScene containerRef={containerRef} projects={projects} />}
 

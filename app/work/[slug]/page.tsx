@@ -48,12 +48,6 @@ export default async function ProjectPage({ params }: Props) {
         </span>
       </div>
 
-      {project.placeholder && (
-        <p className="mt-6 border border-lime/30 bg-lime/5 px-4 py-3 font-mono text-[10px] uppercase tracking-[0.1em] text-lime">
-          Placeholder content — replace in lib/content.ts
-        </p>
-      )}
-
       <TechChips items={project.tech} className="mt-8" />
 
       <div className="mt-6 flex flex-wrap items-center gap-6">
