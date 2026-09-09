@@ -37,17 +37,30 @@ export default function Preloader() {
   useEffect(() => {
     if (!armed) return;
 
-    if (reduced) {
-      setDone(true);
+    const finish = () => {
       try {
         sessionStorage.setItem("preloaded", "1");
       } catch {}
+      setDone(true);
+    };
+
+    if (reduced) {
+      finish();
       return;
     }
 
     let raf = 0;
     let value = 0;
+    let settle = 0;
     const start = performance.now();
+
+    // Failsafe: the animation below is driven entirely by requestAnimationFrame,
+    // which a browser throttles to ~0 fps for a backgrounded or fully occluded
+    // window. Without this, the tick loop would never reach 100 and the
+    // full-screen overlay would hide the whole site until the tab regained
+    // focus. A one-shot setTimeout is throttled far less aggressively, so it
+    // clears the overlay no matter what. The normal path finishes in ~2s.
+    const failsafe = window.setTimeout(finish, 2800);
 
     const tick = (now: number) => {
       const elapsed = now - start;
@@ -58,17 +71,18 @@ export default function Preloader() {
 
       if (value >= 99.4) {
         setProgress(100);
-        try {
-          sessionStorage.setItem("preloaded", "1");
-        } catch {}
-        window.setTimeout(() => setDone(true), 380);
+        settle = window.setTimeout(finish, 380);
         return;
       }
       raf = requestAnimationFrame(tick);
     };
 
     raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.clearTimeout(failsafe);
+      window.clearTimeout(settle);
+    };
   }, [armed, reduced]);
 
   if (done || !armed) return null;
