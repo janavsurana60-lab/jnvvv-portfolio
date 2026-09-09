@@ -29,7 +29,8 @@ export default async function CapabilityPage({ params }: Props) {
   if (!cap) notFound();
 
   const i = capabilities.findIndex((c) => c.slug === slug);
-  const next = capabilities[(i + 1) % capabilities.length];
+  const prev = capabilities[i - 1];
+  const next = capabilities[i + 1];
 
   return (
     <div className="mx-auto max-w-content px-6 py-20 lg:px-14 lg:py-28">
@@ -98,14 +99,28 @@ export default async function CapabilityPage({ params }: Props) {
         </div>
       </div>
 
-      <div className="mt-16 flex justify-end border-t border-bone/8 pt-6">
-        <Link
-          href={`/capabilities/${next.slug}`}
-          className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted transition-colors hover:text-bone"
-        >
-          {next.title} · Next →
-        </Link>
-      </div>
+      {(prev || next) && (
+        <div className="mt-16 flex items-center justify-between border-t border-bone/8 pt-6 font-mono text-[10px] uppercase tracking-[0.14em] text-muted">
+          {prev ? (
+            <Link
+              href={`/capabilities/${prev.slug}`}
+              className="transition-colors hover:text-bone"
+            >
+              ← Previous · {prev.title}
+            </Link>
+          ) : (
+            <span />
+          )}
+          {next && (
+            <Link
+              href={`/capabilities/${next.slug}`}
+              className="transition-colors hover:text-bone"
+            >
+              {next.title} · Next →
+            </Link>
+          )}
+        </div>
+      )}
     </div>
   );
 }

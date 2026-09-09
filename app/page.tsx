@@ -9,11 +9,9 @@ import Marquee from "@/components/Marquee";
 import SystemDiagram from "@/components/SystemDiagram";
 import CapabilityAccordion from "@/components/CapabilityAccordion";
 import FloatingArchive from "@/components/three/FloatingArchive";
-import { capabilities, marqueeItems, process, profile, projects, stats } from "@/lib/content";
+import { capabilities, marqueeItems, process, profile, stats } from "@/lib/content";
 
 export default function Home() {
-  const featured = projects.filter((p) => p.featured);
-
   return (
     <>
       {/* 01 — Hero (dark) */}
@@ -181,8 +179,8 @@ export default function Home() {
             />
             <p className="mt-6 max-w-md text-sm leading-relaxed text-muted">
               What gets shown here is what&apos;s actually been shipped — not
-              what&apos;s been imagined. Numbers move with the work; nothing
-              is padded.
+              what&apos;s been imagined, and nothing dressed up to look like
+              more than it is.
             </p>
           </Reveal>
 

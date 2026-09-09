@@ -11,7 +11,6 @@ export type Project = {
   tech: string[];
   link?: string;
   image?: string;
-  featured?: boolean;
   accent: AccentName;
   /**
    * Path to a self-contained static build of the project, bundled under
@@ -171,7 +170,6 @@ export const projects: Project[] = [
     tech: ["Next.js", "React Three Fiber", "GSAP"],
     link: "https://janavpoly.vercel.app",
     image: "/work/janav-poly.png",
-    featured: true,
   },
   {
     slug: "dulaar",
@@ -193,7 +191,6 @@ export const projects: Project[] = [
     ],
     tech: ["Next.js", "Motion", "WebGL (ogl)", "Neon Postgres"],
     image: "/work/dulaar.png",
-    featured: true,
     preview: "/dulaar-preview/",
   },
 ];
