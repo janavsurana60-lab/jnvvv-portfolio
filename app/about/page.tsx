@@ -35,7 +35,7 @@ export default function AboutPage() {
         system.
       </p>
 
-      <div className="mt-16 grid grid-cols-3 gap-6 border-y border-bone/8 py-10">
+      <div className="mt-16 grid grid-cols-2 gap-6 border-y border-bone/8 py-10">
         {stats.map((stat) => (
           <div key={stat.label}>
             <p className="font-display disp-tight text-3xl font-black text-bone md:text-5xl">

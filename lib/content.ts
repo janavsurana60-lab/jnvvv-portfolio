@@ -297,7 +297,6 @@ export const process = [
 ] as const;
 
 export const stats = [
-  { value: "—", label: "Systems Delivered" },
-  { value: "—", label: "Code Reviewed" },
+  { value: "1", label: "Person Behind It" },
   { value: "2026", label: "Active Since" },
 ];
