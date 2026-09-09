@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { ACCENTS, Capability } from "@/lib/content";
 import { handleSpotlightMove } from "@/lib/spotlight";
 
@@ -89,6 +90,13 @@ export default function CapabilityAccordion({
                 />
                 {cap.tech.join(" · ")}
               </p>
+              <Link
+                href={`/capabilities/${cap.slug}`}
+                className="mt-6 inline-block font-mono text-[10px] uppercase tracking-[0.14em] underline decoration-1 underline-offset-4 transition-opacity hover:opacity-70"
+                style={{ color: accent }}
+              >
+                Read the full approach →
+              </Link>
             </div>
           </div>
         );
